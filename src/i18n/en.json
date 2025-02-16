@@ -1,0 +1,9 @@
+{
+  "login": {
+    "title": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "button": "Log in",
+    "register": "Register"
+  }
+}
