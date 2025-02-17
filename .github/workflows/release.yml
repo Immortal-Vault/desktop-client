@@ -98,8 +98,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           draft: false
-          name: "Immortal Vault ${{ github.ref }}"
-          tag_name: ${{ github.ref }}
+          name: "Immortal Vault ${{ github.ref_name }}"
+          tag_name: ${{ github.ref_name }}
           generate_release_notes: true
           files: |
             src-tauri/gen/android/app/build/outputs/apk/universal/release/immortal-vault-${{ steps.package-version.outputs.current-version }}.apk
