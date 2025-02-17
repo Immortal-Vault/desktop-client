@@ -1,10 +1,11 @@
 {
   "name": "immortal-vault-native-client",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite dev",
+    "build": "vite build",
     "windows": "tauri dev",
     "windows-release": "tauri build",
     "android": "tauri android dev",
