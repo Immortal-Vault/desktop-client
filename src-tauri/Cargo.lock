@@ -1766,7 +1766,7 @@ dependencies = [
 
 [[package]]
 name = "immortal-vault-native-client"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "serde",
  "serde_json",

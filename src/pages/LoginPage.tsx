@@ -1,38 +1,116 @@
-import { TextInput, PasswordInput, Button, Anchor, Stack, Title, Paper, Container } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
-import { IconAt, IconLock } from '@tabler/icons-react';
+import {
+    Anchor,
+    Button,
+    Divider,
+    Group,
+    Paper,
+    PaperProps,
+    PasswordInput,
+    Stack,
+    Text,
+    TextInput,
+} from '@mantine/core';
+//import { useTranslation } from 'react-i18next';
+import { IconBrandGoogleFilled, IconBrandAppleFilled } from '@tabler/icons-react';
+import { useForm } from '@mantine/form';
+import { upperFirst, useToggle } from '@mantine/hooks';
+// import { GoogleButton } from './GoogleButton';
+// import { TwitterButton } from './TwitterButton';
 
-export default function LoginPage() {
-    function LanguageSwitcher() {
-        const { i18n } = useTranslation();
+export default function LoginPage(props: PaperProps) {
+    // function LanguageSwitcher() {
+    //     const { i18n } = useTranslation();
+    //
+    //     const toggleLanguage = () => {
+    //         i18n.changeLanguage(i18n.language === 'ru' ? 'en' : 'ru');
+    //     };
+    //
+    //     return <Button onClick={toggleLanguage}>Сменить язык ({i18n.language})</Button>;
+    // }
+    // const { t } = useTranslation();
+    const googleIcon = <IconBrandGoogleFilled size={20} />;
+    const appleIcon = <IconBrandAppleFilled size={20} />;
+    const [type, toggle] = useToggle(['login', 'register']);
+    const form = useForm({
+        initialValues: {
+            email: '',
+            name: '',
+            password: '',
+            terms: true,
+        },
 
-        const toggleLanguage = () => {
-            i18n.changeLanguage(i18n.language === 'ru' ? 'en' : 'ru');
-        };
-
-        return <Button onClick={toggleLanguage}>Сменить язык ({i18n.language})</Button>;
-    }
-    const { t } = useTranslation();
-    const emailIcon = <IconAt size={16} />;
-    const lockIcon = <IconLock size={16} />;
+        // validate: {
+        //     email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
+        //     password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+        // },
+    });
 
 
     return (
-        <Container size={420} my={40}>
-            <Title style={{textAlign: "center", mb: "md"}}>
-                {t('login.title')}
-            </Title>
-            <Paper withBorder shadow="md" p={30} radius="md">
+        <Paper radius="md" p="xl" withBorder {...props}>
+            <Text size="lg" fw={500}>
+                Welcome to Immortal Vault, {type} with
+            </Text>
+
+            <Group grow mb="md" mt="md">
+                <Button style={{color: "black", backgroundColor: "grey"}} variant="white" leftSection={googleIcon} radius="xl">Google</Button>
+                <Button style={{color: "black", backgroundColor: "grey"}} variant="white" radius="xl" leftSection={appleIcon}>Apple</Button>
+            </Group>
+
+            <Divider label="Or continue with email" labelPosition="center" my="lg" />
+
+            <form onSubmit={form.onSubmit(() => {})}>
                 <Stack>
-                    <TextInput label={t('login.email')} placeholder="example@mail.com" required leftSectionPointerEvents="none" leftSection={emailIcon}/>
-                    <PasswordInput label={t('login.password')} placeholder="*********" required leftSectionPointerEvents="none" leftSection={lockIcon}/>
-                    <Button fullWidth mt="sm">{t('login.button')}</Button>
+                    {type === 'register' && (
+                        <TextInput
+                            label="Name"
+                            placeholder="Your name"
+                            value={form.values.name}
+                            onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+                            radius="md"
+                        />
+                    )}
+
+                    <TextInput
+                        required
+                        label="Email"
+                        placeholder="hello@mantine.dev"
+                        value={form.values.email}
+                        onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+                        error={form.errors.email && 'Invalid email'}
+                        radius="md"
+                    />
+
+                    <PasswordInput
+                        required
+                        label="Password"
+                        placeholder="Your password"
+                        value={form.values.password}
+                        onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
+                        error={form.errors.password && 'Password should include at least 6 characters'}
+                        radius="md"
+                    />
+
+                    {/*{type === 'register' && (*/}
+                    {/*    <Checkbox*/}
+                    {/*        label="I accept terms and conditions"*/}
+                    {/*        checked={form.values.terms}*/}
+                    {/*        onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}*/}
+                    {/*    />*/}
+                    {/*)}*/}
                 </Stack>
-                <Anchor href="#" size="sm" mt="md" style={{textAlign: "center"}} display="block">
-                    {t('login.register')}
-                </Anchor>
-            </Paper>
-            <LanguageSwitcher/>
-        </Container>
+
+                <Group justify="space-between" mt="xl">
+                    <Anchor component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
+                        {type === 'register'
+                            ? 'Already have an account? Login'
+                            : "Don't have an account? Register"}
+                    </Anchor>
+                    <Button type="submit" radius="xl">
+                        {upperFirst(type)}
+                    </Button>
+                </Group>
+            </form>
+        </Paper>
     );
 }
