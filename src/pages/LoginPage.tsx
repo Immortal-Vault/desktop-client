@@ -3,6 +3,7 @@ import {
     Button,
     Divider,
     Group,
+    Modal,
     Paper,
     PaperProps,
     PasswordInput,
@@ -14,7 +15,7 @@ import {
 import { IconBrandGoogleFilled, IconBrandAppleFilled, IconBrandGithubFilled } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { upperFirst, useToggle } from '@mantine/hooks';
-
+import { useState } from 'react';
 
 export default function LoginPage(props: PaperProps) {
     // function LanguageSwitcher() {
@@ -31,6 +32,8 @@ export default function LoginPage(props: PaperProps) {
     const appleIcon = <IconBrandAppleFilled size={20} />;
     const githubIcon = <IconBrandGithubFilled size={20} />;
     const [type, toggle] = useToggle(['login', 'register']);
+    const [opened, setOpened] = useState(false);
+    const [email, setEmail] = useState('');
     const form = useForm({
         initialValues: {
             email: '',
@@ -44,11 +47,16 @@ export default function LoginPage(props: PaperProps) {
         //     password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
         // },
     });
+    const handlePasswordReset = () => {
+        // Логика восстановления пароля
+        console.log('Восстановление пароля для:', email);
+        setOpened(false);
+    };
 
 
     return (
         <Paper radius="md" p="xl" withBorder {...props}>
-            <Text size="lg" fw={500}>
+            <Text size="lg" fw={500} style={{marginBottom: '1rem'}}>
                 Welcome to Immortal Vault, {type} with
             </Text>
 
@@ -95,14 +103,28 @@ export default function LoginPage(props: PaperProps) {
                         {upperFirst(type)}
                     </Button>
                 </Group>
+                {type === 'register' && (<Anchor href="#" size="sm" mt="xs" style={{textAlign:"center"}}  display="block" onClick={() => setOpened(true)}>
+                    Забыли пароль?
+                </Anchor>)}
 
                 <Divider label="Or continue with" labelPosition="center" my="lg" />
 
                 <Group grow mb="md" mt="md">
-                    <Button style={{color: "black", backgroundColor: "grey"}} variant="white" leftSection={googleIcon} radius="xl">Google</Button>
-                    <Button style={{color: "black", backgroundColor: "grey"}} variant="white" radius="xl" leftSection={appleIcon}>Apple</Button>
-                    <Button style={{color: "black", backgroundColor: "grey"}} variant="white" radius="xl" leftSection={githubIcon}>GitHub</Button>
+                    <Button /*style={{color: "black", backgroundColor: "grey"}}*/ variant="transparent" leftSection={googleIcon}>Google</Button>
+                    <Button /*style={{color: "black", backgroundColor: "grey"}}*/ variant="transparent" leftSection={appleIcon}>Apple</Button>
+                    <Button /*style={{color: "black", backgroundColor: "grey"}}*/ variant="transparent" leftSection={githubIcon}>GitHub</Button>
                 </Group>
+                <Modal opened={opened} onClose={() => setOpened(false)} title="Восстановление пароля" radius="md" closeOnClickOutside={false} closeOnEscape={false}>
+                <TextInput
+                    radius="md"
+                    label="Введите вашу почту"
+                    placeholder="example@mail.com"
+                    value={email}
+                    onChange={(event) => setEmail(event.currentTarget.value)}
+                    required
+                />
+                <Button mt="md" ml="auto" display="flex" radius="xl" onClick={handlePasswordReset}>Восстановить</Button>
+            </Modal>
             </form>
         </Paper>
     );
