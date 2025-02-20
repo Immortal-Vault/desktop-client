@@ -11,11 +11,10 @@ import {
     TextInput,
 } from '@mantine/core';
 //import { useTranslation } from 'react-i18next';
-import { IconBrandGoogleFilled, IconBrandAppleFilled } from '@tabler/icons-react';
+import { IconBrandGoogleFilled, IconBrandAppleFilled, IconBrandGithubFilled } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { upperFirst, useToggle } from '@mantine/hooks';
-// import { GoogleButton } from './GoogleButton';
-// import { TwitterButton } from './TwitterButton';
+
 
 export default function LoginPage(props: PaperProps) {
     // function LanguageSwitcher() {
@@ -30,6 +29,7 @@ export default function LoginPage(props: PaperProps) {
     // const { t } = useTranslation();
     const googleIcon = <IconBrandGoogleFilled size={20} />;
     const appleIcon = <IconBrandAppleFilled size={20} />;
+    const githubIcon = <IconBrandGithubFilled size={20} />;
     const [type, toggle] = useToggle(['login', 'register']);
     const form = useForm({
         initialValues: {
@@ -51,13 +51,6 @@ export default function LoginPage(props: PaperProps) {
             <Text size="lg" fw={500}>
                 Welcome to Immortal Vault, {type} with
             </Text>
-
-            <Group grow mb="md" mt="md">
-                <Button style={{color: "black", backgroundColor: "grey"}} variant="white" leftSection={googleIcon} radius="xl">Google</Button>
-                <Button style={{color: "black", backgroundColor: "grey"}} variant="white" radius="xl" leftSection={appleIcon}>Apple</Button>
-            </Group>
-
-            <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
             <form onSubmit={form.onSubmit(() => {})}>
                 <Stack>
@@ -90,14 +83,6 @@ export default function LoginPage(props: PaperProps) {
                         error={form.errors.password && 'Password should include at least 6 characters'}
                         radius="md"
                     />
-
-                    {/*{type === 'register' && (*/}
-                    {/*    <Checkbox*/}
-                    {/*        label="I accept terms and conditions"*/}
-                    {/*        checked={form.values.terms}*/}
-                    {/*        onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}*/}
-                    {/*    />*/}
-                    {/*)}*/}
                 </Stack>
 
                 <Group justify="space-between" mt="xl">
@@ -109,6 +94,14 @@ export default function LoginPage(props: PaperProps) {
                     <Button type="submit" radius="xl">
                         {upperFirst(type)}
                     </Button>
+                </Group>
+
+                <Divider label="Or continue with" labelPosition="center" my="lg" />
+
+                <Group grow mb="md" mt="md">
+                    <Button style={{color: "black", backgroundColor: "grey"}} variant="white" leftSection={googleIcon} radius="xl">Google</Button>
+                    <Button style={{color: "black", backgroundColor: "grey"}} variant="white" radius="xl" leftSection={appleIcon}>Apple</Button>
+                    <Button style={{color: "black", backgroundColor: "grey"}} variant="white" radius="xl" leftSection={githubIcon}>GitHub</Button>
                 </Group>
             </form>
         </Paper>
