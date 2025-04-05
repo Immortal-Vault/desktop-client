@@ -7,9 +7,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "windows": "tauri dev",
-    "windows-release": "tauri build",
-    "android": "tauri android dev",
-    "android-release": "tauri android build"
+    "windows-release": "tauri build"
   },
   "dependencies": {
     "@mantine/core": "^7.16.3",
