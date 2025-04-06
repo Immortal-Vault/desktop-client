@@ -47,6 +47,13 @@ jobs:
       - name: 📦 Install Yarn
         run: npm install -g yarn
 
+      - name: 🧪 Check cache hit
+        run: |
+          echo "node_modules:"
+          ls -la node_modules | head -n 10
+          echo "Rust target:"
+          ls -la src-tauri/target | head -n 10
+
       - name: 📥 Install project dependencies
         run: yarn install --immutable
 
