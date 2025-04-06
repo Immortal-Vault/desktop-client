@@ -25,11 +25,30 @@ jobs:
           override: true
           target: x86_64-pc-windows-msvc
 
+      - name: 🗂️ Cache cargo registry + target
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            src-tauri/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: 🗂️ Cache yarn
+        uses: actions/cache@v3
+        with:
+          path: |
+            .yarn/cache
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: 📦 Install Yarn
         run: npm install -g yarn
 
       - name: 📥 Install project dependencies
-        run: yarn install
+        run: yarn install --immutable
 
       - name: 🌐 Download and install WebView2 (non-blocking)
         run: |
