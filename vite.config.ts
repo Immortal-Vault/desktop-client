@@ -1,5 +1,6 @@
-import { defineConfig } from "vite";
+import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from 'tailwindcss';
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
@@ -7,7 +8,13 @@ const host = process.env.TAURI_DEV_HOST;
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
   plugins: [react()],
-  resolve: {
+    css: {
+        postcss: {
+            plugins: [tailwindcss()],
+        },
+    },
+    base: '/',
+    resolve: {
     alias: {
         // /esm/icons/index.mjs only exports the icons statically, so no separate chunks are created
         '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',

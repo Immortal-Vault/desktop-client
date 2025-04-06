@@ -10,24 +10,27 @@
     "windows-release": "tauri build"
   },
   "dependencies": {
-    "@mantine/core": "^7.16.3",
-    "@mantine/form": "^7.17.0",
-    "@mantine/hooks": "^7.16.3",
-    "@tabler/icons-react": "^3.30.0",
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-opener": "^2",
-    "i18next": "^24.2.2",
-    "i18next-browser-languagedetector": "^8.0.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-i18next": "^15.4.0"
+    "@heroui/react": "^2.7.5",
+    "@tabler/icons-react": "^3.31.0",
+    "@tauri-apps/api": "^2.4.1",
+    "@tauri-apps/plugin-opener": "^2.2.6",
+    "framer-motion": "12.6.3",
+    "i18next": "^24.2.3",
+    "i18next-browser-languagedetector": "^8.0.4",
+    "motion": "^12.6.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-i18next": "^15.4.1"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.2.7",
+    "@tauri-apps/cli": "^2.4.1",
     "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.1",
+    "@types/react-dom": "^18.3.6",
     "@vitejs/plugin-react": "^4.3.4",
-    "typescript": "~5.6.2",
-    "vite": "^6.0.3"
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "3",
+    "typescript": "~5.8.3",
+    "vite": "^6.2.5"
   }
 }
