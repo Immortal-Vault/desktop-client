@@ -25,39 +25,32 @@ jobs:
           override: true
           target: x86_64-pc-windows-msvc
 
-      - name: 🗂️ Cache cargo registry + target
+      - name: 💾 Cache Rust dependencies
         uses: actions/cache@v3
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             src-tauri/target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: Windows-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            Windows-cargo-
 
-      - name: 🗂️ Cache yarn
+      - name: 💾 Cache Yarn dependencies
         uses: actions/cache@v3
         with:
           path: |
             .yarn/cache
             node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: Windows-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            Windows-yarn-
 
       - name: 📦 Install Yarn
         run: npm install -g yarn
 
-      - name: 🧪 Check cache hit
-        run: |
-          echo "📦 node_modules:"
-          Get-ChildItem node_modules | Select-Object -First 10
-
-          echo "🦀 Rust target:"
-          Get-ChildItem src-tauri/target | Select-Object -First 10
-        shell: pwsh
-
       - name: 📥 Install project dependencies
-        run: yarn install --immutable
+        run: yarn install --frozen-lockfile
 
       - name: 🌐 Download and install WebView2 (non-blocking)
         run: |
