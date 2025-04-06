@@ -7,3 +7,4 @@
 ## Setup
 
 - [Prerequisites](https://v2.tauri.app/start/prerequisites/)
+- Hero UI (yarn global add heroui-cli)
