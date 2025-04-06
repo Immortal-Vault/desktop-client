@@ -49,10 +49,12 @@ jobs:
 
       - name: 🧪 Check cache hit
         run: |
-          echo "node_modules:"
-          ls -la node_modules | head -n 10
-          echo "Rust target:"
-          ls -la src-tauri/target | head -n 10
+          echo "📦 node_modules:"
+          Get-ChildItem node_modules | Select-Object -First 10
+
+          echo "🦀 Rust target:"
+          Get-ChildItem src-tauri/target | Select-Object -First 10
+        shell: pwsh
 
       - name: 📥 Install project dependencies
         run: yarn install --immutable
