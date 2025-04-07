@@ -1,5 +1,6 @@
 import { Card, Input, Button, Spacer } from "@heroui/react";
-import { useState } from "react";
+import {useEffect, useState} from "react";
+import { LoadingOverlay } from "../../components";
 
 export const EyeSlashFilledIcon = (props: any) => {
     return (
@@ -62,12 +63,21 @@ export const EyeFilledIcon = (props: any) => {
 };
 
 export default function LoginPage() {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const toggleVisibility = () => setIsVisible(!isVisible);
+    useEffect(() => {
+        setIsLoading(true);
+        setTimeout(() => setIsLoading(false), 2000);
+    }, [])
+
+    const toggleVisibility = () => setIsPasswordVisible(!isPasswordVisible);
 
     return (
         <div className="min-h-screen flex items-center justify-center">
+            <LoadingOverlay
+              visible={isLoading}
+            />
             <Card className="w-full max-w-md p-6">
                 <h2 className="text-2xl font-bold text-center mb-4">Log In</h2>
                 <form>
@@ -86,7 +96,7 @@ export default function LoginPage() {
                                 type="button"
                                 onClick={toggleVisibility}
                             >
-                                {isVisible ? (
+                                {isPasswordVisible ? (
                                     <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
                                 ) : (
                                     <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
@@ -95,7 +105,7 @@ export default function LoginPage() {
                         }
                         label="Password"
                         placeholder="Enter your password"
-                        type={isVisible ? "text" : "password"}
+                        type={isPasswordVisible ? "text" : "password"}
                         variant="underlined"
                         fullWidth
                     />
