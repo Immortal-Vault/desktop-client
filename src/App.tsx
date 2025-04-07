@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import LoginPage from "./pages/LoginPage";
-import './i18n/i18n';
+import './locale/i18n';
 import { HeroUIProvider } from "@heroui/react";
+import { AppRouter } from "./AppRouter";
+import {ErrorBoundary} from "./components";
 
 import './App.css';
 
@@ -10,7 +11,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
       <div className="bg-gray-800">
           <HeroUIProvider>
-              <LoginPage />
+              <ErrorBoundary>
+                  <AppRouter />
+              </ErrorBoundary>
           </HeroUIProvider>
       </div>
   </React.StrictMode>,
