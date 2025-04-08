@@ -47,3 +47,15 @@ jobs:
 
       - run: npm install -g yarn
       - run: yarn install --frozen-lockfile
+
+      - name: 🌐 Download and install WebView2 (non-blocking)
+        run: |
+          $url = "https://go.microsoft.com/fwlink/p/?LinkId=2124703"
+          $output = "$env:TEMP\\MicrosoftEdgeWebview2Setup.exe"
+          Invoke-WebRequest -Uri $url -OutFile $output -TimeoutSec 60
+          Start-Process -FilePath $output -ArgumentList '/install','/quiet','/norestart'
+
+      - name: 🛠 Build Tauri app (.exe)
+        run: yarn windows-release
+        env:
+          CARGO_TARGET_DIR: target

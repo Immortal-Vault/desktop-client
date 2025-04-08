@@ -65,7 +65,7 @@ jobs:
       - name: 🛠 Build Tauri app (.exe)
         run: yarn windows-release
         env:
-          CARGO_TARGET_DIR: .cargo-target
+          CARGO_TARGET_DIR: target
 
       - name: 🚀 Upload .exe to GitHub Release
         uses: softprops/action-gh-release@v2
