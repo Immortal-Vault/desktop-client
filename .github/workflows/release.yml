@@ -68,6 +68,8 @@ jobs:
         run: yarn windows-release
         env:
           CARGO_TARGET_DIR: ${{ env.CARGO_TARGET_DIR }}
+          VITE_ENVS_VARS_URL: ${{ secrets.VITE_ENVS_VARS_URL }}
+          VITE_APP_STAGE: ${{ secrets.VITE_APP_STAGE }}
 
 #      - name: 🚀 Upload .exe to GitHub Release
 #        uses: softprops/action-gh-release@v2
