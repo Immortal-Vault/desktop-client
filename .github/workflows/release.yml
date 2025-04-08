@@ -71,9 +71,11 @@ jobs:
           VITE_ENVS_VARS_URL: ${{ secrets.VITE_ENVS_VARS_URL }}
           VITE_APP_STAGE: ${{ secrets.VITE_APP_STAGE }}
 
-#      - name: 🚀 Upload .exe to GitHub Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: src-tauri/target/release/bundle/nsis/*.exe
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 🚀 Create and upload GitHub release (no tag)
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release from prod@${{ github.sha }}
+          tag_name: prod-${{ github.sha }}
+          files: src-tauri/target/release/bundle/nsis/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
