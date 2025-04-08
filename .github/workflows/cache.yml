@@ -1,0 +1,46 @@
+name: Cache Warmup
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  warmup:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          target: x86_64-pc-windows-msvc
+
+      - name: 💾 Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            src-tauri/target
+          key: Windows-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            Windows-cargo-
+
+      - name: 💾 Cache Yarn dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            .yarn/cache
+            node_modules
+          key: Windows-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            Windows-yarn-
+
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
