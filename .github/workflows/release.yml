@@ -67,7 +67,12 @@ jobs:
       - name: 🔍 Debug target dir before build
         run: |
           echo "Target dir:"
-          dir "${{ github.workspace }}\target"
+          if (Test-Path "${{ env.CARGO_TARGET_DIR }}") {
+            Get-ChildItem "${{ env.CARGO_TARGET_DIR }}"
+          } else {
+            Write-Host "Target directory does not exist yet."
+          }
+        shell: pwsh
 
       - name: 🛠 Build Tauri app (.exe)
         run: yarn windows-release
