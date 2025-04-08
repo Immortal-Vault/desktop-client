@@ -4,6 +4,7 @@ import {ErrorPage, LoadingOverlay, NonAuthorizedRoute} from './components';
 import {ROUTER_PATH} from './shared';
 import LoginPage from "./views/auth/LoginPage.tsx";
 import {fetchEnvs, selectEnvVars, useAppDispatch, useAppSelector} from "./stores";
+import { moveWindow, Position } from '@tauri-apps/plugin-positioner';
 
 const errorElement = <ErrorPage />;
 
@@ -49,6 +50,10 @@ export const AppRouter: FC = () => {
   //   googleDrive.fetchGoogleDriveState();
   // }, [envs, loading, auth.authState, authContext.isFetchInProgress]);
   }, [envs, loading, error]);
+
+  useEffect(() => {
+    moveWindow(Position.Center);
+  }, [])
 
   if (
     !envs ||
