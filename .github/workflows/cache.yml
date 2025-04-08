@@ -27,7 +27,7 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            .tauri-target
+            .cargo-target
           key: Windows-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             Windows-cargo-

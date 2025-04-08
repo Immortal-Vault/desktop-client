@@ -31,7 +31,7 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            .tauri-target
+            .cargo-target
           key: Windows-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             Windows-cargo-
@@ -61,6 +61,8 @@ jobs:
 
       - name: 🛠 Build Tauri app (.exe)
         run: yarn windows-release
+        env:
+          CARGO_TARGET_DIR: .cargo-target
 
       - name: 🚀 Upload .exe to GitHub Release
         uses: softprops/action-gh-release@v2
