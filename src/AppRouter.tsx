@@ -5,6 +5,7 @@ import {ROUTER_PATH} from './shared';
 import LoginPage from "./views/auth/LoginPage.tsx";
 import {fetchEnvs, selectEnvVars, useAppDispatch, useAppSelector} from "./stores";
 import { moveWindow, Position } from '@tauri-apps/plugin-positioner';
+import { info } from '@tauri-apps/plugin-log';
 
 const errorElement = <ErrorPage />;
 
@@ -53,7 +54,7 @@ export const AppRouter: FC = () => {
 
   useEffect(() => {
     moveWindow(Position.Center);
-    console.log('Immortal Vault started')
+    info('Immortal Vault started');
   }, [])
 
   if (
