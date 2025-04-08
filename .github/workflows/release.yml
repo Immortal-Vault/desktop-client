@@ -2,8 +2,8 @@ name: Release windows
 
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - prod
 
 jobs:
   build-windows:
