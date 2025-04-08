@@ -1,4 +1,4 @@
-import {ReactNode} from 'react';
+import { ReactNode } from 'react';
 
 export const NonAuthorizedRoute = (props: { children: ReactNode }) => {
   // TODO: refactor

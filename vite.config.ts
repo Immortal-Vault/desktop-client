@@ -14,12 +14,6 @@ export default defineConfig(async () => ({
         },
     },
     base: '/',
-    resolve: {
-    alias: {
-        // /esm/icons/index.mjs only exports the icons statically, so no separate chunks are created
-        '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
-    },
-  },
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
   // 1. prevent vite from obscuring rust errors

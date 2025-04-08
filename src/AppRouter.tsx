@@ -1,9 +1,9 @@
-import {FC, Suspense, useEffect} from 'react';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import {ErrorPage, LoadingOverlay, NonAuthorizedRoute} from './components';
-import {ROUTER_PATH} from './shared';
-import LoginPage from "./views/auth/LoginPage.tsx";
-import {fetchEnvs, selectEnvVars, useAppDispatch, useAppSelector} from "./stores";
+import { FC, Suspense, useEffect } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ErrorPage, LoadingOverlay, NonAuthorizedRoute } from './components';
+import { ROUTER_PATH } from './shared';
+import LoginPage from './views/auth/LoginPage.tsx';
+import { fetchEnvs, selectEnvVars, useAppDispatch, useAppSelector } from './stores';
 import { moveWindow, Position } from '@tauri-apps/plugin-positioner';
 import { info } from '@tauri-apps/plugin-log';
 
@@ -38,24 +38,24 @@ export const AppRouter: FC = () => {
       return;
     }
 
-  //   if (googleDrive.googleDriveStateFetched || !envs || auth.authState === EAuthState.Unknown) {
-  //     return;
-  //   }
-  //
-  //   if (auth.authState !== EAuthState.Authorized) {
-  //     dispatch(setGoogleDriveStateFetched(true));
-  //     return;
-  //   }
-  //
-  //   dispatch(setGoogleDriveStateFetched(false));
-  //   googleDrive.fetchGoogleDriveState();
-  // }, [envs, loading, auth.authState, authContext.isFetchInProgress]);
+    //   if (googleDrive.googleDriveStateFetched || !envs || auth.authState === EAuthState.Unknown) {
+    //     return;
+    //   }
+    //
+    //   if (auth.authState !== EAuthState.Authorized) {
+    //     dispatch(setGoogleDriveStateFetched(true));
+    //     return;
+    //   }
+    //
+    //   dispatch(setGoogleDriveStateFetched(false));
+    //   googleDrive.fetchGoogleDriveState();
+    // }, [envs, loading, auth.authState, authContext.isFetchInProgress]);
   }, [envs, loading, error]);
 
   useEffect(() => {
     moveWindow(Position.Center);
     info('Immortal Vault started');
-  }, [])
+  }, []);
 
   if (
     !envs ||

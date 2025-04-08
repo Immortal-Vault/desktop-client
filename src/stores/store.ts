@@ -2,9 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import { envVarsReducer } from './';
 
 export const store = configureStore({
-    reducer: {
-        envVars: envVarsReducer,
-    },
+  reducer: {
+    envVars: envVarsReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

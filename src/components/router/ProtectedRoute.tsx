@@ -1,4 +1,4 @@
-import {ReactNode} from 'react';
+import { ReactNode } from 'react';
 
 export const ProtectedRoute = (props: { children: ReactNode }) => {
   // TODO: refactor
