@@ -53,6 +53,7 @@ export const AppRouter: FC = () => {
 
   useEffect(() => {
     moveWindow(Position.Center);
+    console.log('Immortal Vault started')
   }, [])
 
   if (
