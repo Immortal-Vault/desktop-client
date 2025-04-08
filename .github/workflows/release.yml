@@ -33,8 +33,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            target/
-          save-always: true
+            ${{ github.workspace }}/target
           key: Windows-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             Windows-cargo-
