@@ -1,8 +1,9 @@
-import {FC, Suspense} from 'react';
+import {FC, Suspense, useEffect} from 'react';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import {ErrorPage, NonAuthorizedRoute} from './components';
+import {ErrorPage, LoadingOverlay, NonAuthorizedRoute} from './components';
 import {ROUTER_PATH} from './shared';
 import LoginPage from "./views/auth/LoginPage.tsx";
+import {fetchEnvs, selectEnvVars, useAppDispatch, useAppSelector} from "./stores";
 
 const errorElement = <ErrorPage />;
 
@@ -19,18 +20,22 @@ const appRouter = createBrowserRouter([
 ]);
 
 export const AppRouter: FC = () => {
-  // const dispatch = useAppDispatch();
-  // const { envs, loading } = useAppSelector(selectEnvVars);
+  const dispatch = useAppDispatch();
+  const { envs, loading, error } = useAppSelector(selectEnvVars);
   // const auth = useAppSelector(selectAuth);
   // const authContext = useAuth();
   // const googleDrive = useGoogleDrive();
   //
-  // useEffect(() => {
-  //   if (!envs && !loading) {
-  //     dispatch(fetchEnvs());
-  //     return;
-  //   }
-  //
+  useEffect(() => {
+    if (error) {
+      return;
+    }
+
+    if (!envs && !loading) {
+      dispatch(fetchEnvs());
+      return;
+    }
+
   //   if (googleDrive.googleDriveStateFetched || !envs || auth.authState === EAuthState.Unknown) {
   //     return;
   //   }
@@ -43,22 +48,20 @@ export const AppRouter: FC = () => {
   //   dispatch(setGoogleDriveStateFetched(false));
   //   googleDrive.fetchGoogleDriveState();
   // }, [envs, loading, auth.authState, authContext.isFetchInProgress]);
-  //
-  // if (
-  //   !envs ||
-  //   loading ||
-  //   (auth.authState === EAuthState.Unknown && authContext.isFetchInProgress) ||
-  //   (auth.authState === EAuthState.Authorized && !googleDrive.googleDriveStateFetched)
-  // ) {
-  //   return (
-  //     <LoadingOverlay
-  //       visible={true}
-  //       zIndex={1000}
-  //       overlayProps={{ radius: 'sm', blur: 2 }}
-  //       loaderProps={{ color: 'blue' }}
-  //     />
-  //   );
-  // }
+  }, [envs, loading, error]);
+
+  if (
+    !envs ||
+    loading
+    // (auth.authState === EAuthState.Unknown && authContext.isFetchInProgress) ||
+    // (auth.authState === EAuthState.Authorized && !googleDrive.googleDriveStateFetched)
+  ) {
+    return (
+      <LoadingOverlay
+        visible={true}
+      />
+    );
+  }
 
   return (
     <Suspense fallback={null}>

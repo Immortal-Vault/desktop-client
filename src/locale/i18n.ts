@@ -20,6 +20,7 @@ i18next
         fallbackLng: 'en',
         ns: [
             'auth',
+            'errorBoundary'
         ],
         detection: {
             order: ['navigator'],

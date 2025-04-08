@@ -6,13 +6,17 @@ import { AppRouter } from "./AppRouter";
 import {ErrorBoundary} from "./components";
 
 import './App.css';
+import { Provider } from "react-redux";
+import { store } from "./stores";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
       <div className="bg-gray-800">
           <HeroUIProvider>
               <ErrorBoundary>
-                  <AppRouter />
+                  <Provider store={store}>
+                    <AppRouter />
+                  </Provider>
               </ErrorBoundary>
           </HeroUIProvider>
       </div>
