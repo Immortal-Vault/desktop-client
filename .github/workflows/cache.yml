@@ -22,18 +22,18 @@ jobs:
           target: x86_64-pc-windows-msvc
 
       - name: 💾 Cache Rust dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            src-tauri/target
+            .tauri-target
           key: Windows-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             Windows-cargo-
 
       - name: 💾 Cache Yarn dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             .yarn/cache
