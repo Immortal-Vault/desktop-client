@@ -1,9 +1,12 @@
-name: Release windows
+name: Release Windows
 
 on:
   push:
     branches:
       - prod
+
+env:
+  CARGO_TARGET_DIR: ${{ github.workspace }}/target
 
 jobs:
   build-windows:
@@ -25,14 +28,14 @@ jobs:
           override: true
           target: x86_64-pc-windows-msvc
 
-      - name: 💾 Cache Rust dependencies
+      - name: 💾 Cache Rust dependencies and target dir
         uses: actions/cache@v4
         with:
           path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
+            C:\Users\runneradmin\.cargo\bin
+            C:\Users\runneradmin\.cargo\registry\index
+            C:\Users\runneradmin\.cargo\registry\cache
+            C:\Users\runneradmin\.cargo\git\db
             ${{ github.workspace }}/target
           key: Windows-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
@@ -61,10 +64,15 @@ jobs:
           Invoke-WebRequest -Uri $url -OutFile $output -TimeoutSec 60
           Start-Process -FilePath $output -ArgumentList '/install','/quiet','/norestart'
 
+      - name: 🔍 Debug target dir before build
+        run: |
+          echo "Target dir:"
+          dir "${{ github.workspace }}\target"
+
       - name: 🛠 Build Tauri app (.exe)
         run: yarn windows-release
         env:
-          CARGO_TARGET_DIR: target
+          CARGO_TARGET_DIR: ${{ env.CARGO_TARGET_DIR }}
 
 #      - name: 🚀 Upload .exe to GitHub Release
 #        uses: softprops/action-gh-release@v2
