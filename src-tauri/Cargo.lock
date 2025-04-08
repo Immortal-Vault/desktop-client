@@ -1895,7 +1895,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "immortal-vault-native-client"
+name = "immortal-vault"
 version = "0.0.1"
 dependencies = [
  "log",
