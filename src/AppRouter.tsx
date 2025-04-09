@@ -6,6 +6,8 @@ import LoginPage from './views/auth/LoginPage.tsx';
 import { fetchEnvs, selectEnvVars, useAppDispatch, useAppSelector } from './stores';
 import { moveWindow, Position } from '@tauri-apps/plugin-positioner';
 import { info } from '@tauri-apps/plugin-log';
+import { check } from '@tauri-apps/plugin-updater';
+// import { relaunch } from '@tauri-apps/plugin-process';
 
 const errorElement = <ErrorPage />;
 
@@ -52,9 +54,41 @@ export const AppRouter: FC = () => {
     // }, [envs, loading, auth.authState, authContext.isFetchInProgress]);
   }, [envs, loading, error]);
 
+  const updateCheck = async () => {
+    const update = await check();
+    if (update) {
+      await info(
+        `Found update ${update.version} from ${update.date} with notes ${update.body}`
+      );
+      let downloaded = 0;
+      let contentLength = 0;
+      // alternatively we could also call update.download() and update.install() separately
+      await update.downloadAndInstall((event) => {
+        switch (event.event) {
+          case 'Started':
+            contentLength = event.data.contentLength ?? 0;
+            info(`Started downloading ${event.data.contentLength} bytes`);
+            break;
+          case 'Progress':
+            downloaded += event.data.chunkLength;
+            info(`Downloaded ${downloaded} from ${contentLength}`);
+            break;
+          case 'Finished':
+            info('Download finished');
+            break;
+        }
+      });
+
+      await info('Update installed, need relaunch');
+      // await relaunch();
+    } else {
+      await info('Update not found');
+    }
+  }
+
   useEffect(() => {
     moveWindow(Position.Center);
-    info('Immortal Vault started');
+    info('Immortal Vault started').then(updateCheck);
   }, []);
 
   if (

@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    immortal_vault_native_client_lib::run()
+    immortal_vault_lib::run()
 }

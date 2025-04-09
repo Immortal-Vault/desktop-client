@@ -37,6 +37,18 @@
       "certificateThumbprint": null,
       "digestAlgorithm": "sha256",
       "timestampUrl": "http://timestamp.digicert.com"
+    },
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI0NTlEMDI5QjJBMTBFMzcKUldRM0RxR3lLZEJaSk56QnFHcC96bE43K0VHR0Z3TnFZdDJHTThvbnA3NG1IMm1sWXNUMHdMQnUK",
+      "endpoints": [
+        "https://github.com/Immortal-Vault/desktop-client/releases/latest/download/latest.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
     }
   }
 }

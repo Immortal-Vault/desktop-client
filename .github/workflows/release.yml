@@ -76,6 +76,8 @@ jobs:
         with:
           name: Release from prod@${{ github.sha }}
           tag_name: prod-${{ github.sha }}
-          files: ${{ env.CARGO_TARGET_DIR }}/release/bundle/nsis/*.exe
+          files: |
+            ${{ env.CARGO_TARGET_DIR }}/release/bundle/nsis/*.exe
+            ${{ env.CARGO_TARGET_DIR }}/release/bundle/nsis/*.sig
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

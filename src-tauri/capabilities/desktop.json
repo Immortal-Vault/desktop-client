@@ -1,15 +1,14 @@
 {
   "identifier": "desktop-capability",
   "platforms": [
-    "macOS",
-    "windows",
-    "linux"
+    "windows"
   ],
   "windows": [
     "main"
   ],
   "permissions": [
     "positioner:default",
-    "log:default"
+    "log:default",
+    "updater:default"
   ]
 }
