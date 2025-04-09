@@ -2,20 +2,27 @@ import { readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const version = process.env.VERSION;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const version = process.argv[2];
+if (!version) {
+  console.error("❌ Version is required as the first argument.");
+  process.exit(1);
+}
+
 const pubDate = new Date().toISOString();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const sigPath = path.join(__dirname, '..', 'target', 'release', 'bundle', 'nsis', `Immortal Vault_${version}_x64-setup.exe.sig`);
 
-const signaturePath = path.join(
-  process.env.CARGO_TARGET_DIR,
-  'release',
-  'bundle',
-  'nsis',
-  `Immortal Vault_${version}_x64-setup.exe.sig`
-);
-
-const signature = readFileSync(signaturePath, 'utf8').trim();
+let signature;
+try {
+  signature = readFileSync(sigPath, 'utf8').trim();
+} catch (err) {
+  console.error(`❌ Failed to read signature file at: ${sigPath}`);
+  console.error(err);
+  process.exit(1);
+}
 
 const latest = {
   version,
@@ -29,5 +36,5 @@ const latest = {
   }
 };
 
-writeFileSync('./latest.json', JSON.stringify(latest, null, 2));
-console.log('✅ latest.json created');
+writeFileSync(path.join(__dirname, '..', 'latest.json'), JSON.stringify(latest, null, 2));
+console.log("✅ latest.json successfully generated");

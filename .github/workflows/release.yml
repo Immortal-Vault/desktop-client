@@ -69,6 +69,11 @@ jobs:
           Remove-Item -Recurse -Force "${{ env.CARGO_TARGET_DIR }}\release\bundle\nsis\*"
         shell: pwsh
 
+      - name: 📦 Get version from package.json
+        id: get_version
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        shell: bash
+
       - name: 🛠 Build Tauri app (.exe)
         run: yarn windows-release
         env:
@@ -78,23 +83,16 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           TAURI_APP_STAGE: production
 
-      - name: 🧾 Extract version from package.json
-        run: |
-          $VERSION = node -p "require('./package.json').version"
-          echo "VERSION=$VERSION" >> $env:GITHUB_ENV
-        shell: pwsh
-
       - name: 📄 Generate latest.json
-        run: node scripts/generate-latest-json.js
-        env:
-          VERSION: ${{ env.VERSION }}
-          CARGO_TARGET_DIR: ${{ env.CARGO_TARGET_DIR }}
+        run: |
+          node ./scripts/generate-latest-json.js ${{ steps.get_version.outputs.version }}
+        shell: bash
 
-      - name: 🚀 Create and upload GitHub release (no tag)
+      - name: 🚀 Create and upload GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          name: Release ${VERSION}
-          tag_name: prod-${VERSION}
+          name: Release v${{ steps.get_version.outputs.version }}
+          tag_name: v${{ steps.get_version.outputs.version }}
           files: |
             ${{ env.CARGO_TARGET_DIR }}/release/bundle/nsis/*.exe
             ${{ env.CARGO_TARGET_DIR }}/release/bundle/nsis/*.sig
