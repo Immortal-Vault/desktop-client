@@ -79,9 +79,8 @@ jobs:
           TAURI_APP_STAGE: production
 
       - name: 🧑‍💻 Extract version from package.json
-        id: extract_version
         run: |
-          VERSION=$(node -p "require('./package.json').version")
+          $VERSION = node -p "require('./package.json').version"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: 📝 Generate Release JSON file
