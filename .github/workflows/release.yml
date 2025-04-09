@@ -71,8 +71,10 @@ jobs:
 
       - name: 📦 Get version from package.json
         id: get_version
-        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
-        shell: bash
+        shell: pwsh
+        run: |
+          $version = (Get-Content -Raw -Path "./package.json" | ConvertFrom-Json).version
+          "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: 🛠 Build Tauri app (.exe)
         run: yarn windows-release
@@ -84,11 +86,9 @@ jobs:
           TAURI_APP_STAGE: production
 
       - name: 📄 Generate latest.json
-        id: get_version
-        shell: pwsh
         run: |
-          $version = (Get-Content -Raw -Path "./package.json" | ConvertFrom-Json).version
-          "version=$version" >> $env:GITHUB_OUTPUT
+          node ./scripts/generate-latest-json.js ${{ steps.get_version.outputs.version }}
+        shell: bash
 
       - name: 🚀 Create and upload GitHub release
         uses: softprops/action-gh-release@v2
