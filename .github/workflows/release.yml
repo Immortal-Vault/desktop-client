@@ -84,9 +84,11 @@ jobs:
           TAURI_APP_STAGE: production
 
       - name: 📄 Generate latest.json
+        id: get_version
+        shell: pwsh
         run: |
-          node ./scripts/generate-latest-json.js ${{ steps.get_version.outputs.version }}
-        shell: bash
+          $version = (Get-Content -Raw -Path "./package.json" | ConvertFrom-Json).version
+          "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: 🚀 Create and upload GitHub release
         uses: softprops/action-gh-release@v2
