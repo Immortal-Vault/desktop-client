@@ -12,7 +12,7 @@ const signaturePath = path.join(
   'release',
   'bundle',
   'nsis',
-  `Immortal.Vault_${version}_x64-setup.exe.sig`
+  `Immortal Vault_${version}_x64-setup.exe.sig`
 );
 
 const signature = readFileSync(signaturePath, 'utf8').trim();
