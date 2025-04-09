@@ -64,6 +64,11 @@ jobs:
           Invoke-WebRequest -Uri $url -OutFile $output -TimeoutSec 60
           Start-Process -FilePath $output -ArgumentList '/install','/quiet','/norestart'
 
+      - name: 🧹 Clean the NSIS directory
+        run: |
+          Remove-Item -Recurse -Force "${{ env.CARGO_TARGET_DIR }}\release\bundle\nsis\*"
+        shell: pwsh
+
       - name: 🛠 Build Tauri app (.exe)
         run: yarn windows-release
         env:
@@ -71,14 +76,48 @@ jobs:
           VITE_ENVS_VARS_URL: ${{ secrets.VITE_ENVS_VARS_URL }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          TAURI_APP_STAGE: production
+
+      - name: 🧑‍💻 Extract version from package.json
+        id: extract_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: 📝 Generate Release JSON file
+        run: |
+          const fs = require('fs');
+          const path = require('path');
+
+          const version = process.env.VERSION;
+          const pubDate = new Date().toISOString();
+
+          const signaturePath = path.join('${{ env.CARGO_TARGET_DIR }}', 'release', 'bundle', 'nsis', `Immortal.Vault_${version}_x64-setup.exe.sig`);
+          const signature = fs.readFileSync(signaturePath, 'utf8').trim();
+
+          const latest = {
+            version,
+            notes: `Release ${version}`,
+            pub_date: pubDate,
+            platforms: {
+              "windows-x86_64": {
+                signature,
+                url: `https://github.com/Immortal-Vault/desktop-client/releases/latest/download/Immortal.Vault_${version}_x64-setup.exe`
+              }
+            }
+          };
+
+          fs.writeFileSync('./latest.json', JSON.stringify(latest, null, 2));
+        shell: node
 
       - name: 🚀 Create and upload GitHub release (no tag)
         uses: softprops/action-gh-release@v2
         with:
-          name: Release from prod@${{ github.sha }}
-          tag_name: prod-${{ github.sha }}
+          name: Release ${VERSION}
+          tag_name: prod-${VERSION}
           files: |
             ${{ env.CARGO_TARGET_DIR }}/release/bundle/nsis/*.exe
             ${{ env.CARGO_TARGET_DIR }}/release/bundle/nsis/*.sig
+            ./latest.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
