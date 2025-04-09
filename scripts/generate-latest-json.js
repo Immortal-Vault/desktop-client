@@ -1,8 +1,11 @@
-const fs = require('fs');
-const path = require('path');
+import { readFileSync, writeFileSync } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const version = process.env.VERSION;
 const pubDate = new Date().toISOString();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const signaturePath = path.join(
   process.env.CARGO_TARGET_DIR,
@@ -11,7 +14,8 @@ const signaturePath = path.join(
   'nsis',
   `Immortal.Vault_${version}_x64-setup.exe.sig`
 );
-const signature = fs.readFileSync(signaturePath, 'utf8').trim();
+
+const signature = readFileSync(signaturePath, 'utf8').trim();
 
 const latest = {
   version,
@@ -25,5 +29,5 @@ const latest = {
   }
 };
 
-fs.writeFileSync('./latest.json', JSON.stringify(latest, null, 2));
+writeFileSync('./latest.json', JSON.stringify(latest, null, 2));
 console.log('✅ latest.json created');
