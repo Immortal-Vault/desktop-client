@@ -69,7 +69,8 @@ jobs:
         env:
           CARGO_TARGET_DIR: ${{ env.CARGO_TARGET_DIR }}
           VITE_ENVS_VARS_URL: ${{ secrets.VITE_ENVS_VARS_URL }}
-          VITE_APP_STAGE: ${{ secrets.VITE_APP_STAGE }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
       - name: 🚀 Create and upload GitHub release (no tag)
         uses: softprops/action-gh-release@v2
