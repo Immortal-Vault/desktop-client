@@ -1,6 +1,6 @@
 [package]
 name = "immortal-vault"
-version = "0.0.1"
+version = "0.0.2"
 description = "Desktop client"
 authors = ["immortal-vault"]
 edition = "2021"
